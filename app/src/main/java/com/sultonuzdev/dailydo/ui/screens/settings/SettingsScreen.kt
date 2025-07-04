@@ -20,7 +20,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -53,27 +52,25 @@ fun SettingsScreen(
     var dailySummaryEnabled by remember { mutableStateOf(uiState.dailySummaryEnabled) }
     var achievementNotificationsEnabled by remember { mutableStateOf(uiState.achievementNotificationsEnabled) }
 
-    Scaffold(
-        modifier=modifier,
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Settings",
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    titleContentColor = MaterialTheme.colorScheme.onBackground
+    Column(modifier = modifier.fillMaxSize()) {
+        // TopAppBar
+        TopAppBar(
+            title = {
+                Text(
+                    text = "Settings",
+                    style = MaterialTheme.typography.titleLarge
                 )
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.background,
+                titleContentColor = MaterialTheme.colorScheme.onBackground
             )
-        }
-    ) { innerPadding ->
+        )
+
+        // Content
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
         ) {

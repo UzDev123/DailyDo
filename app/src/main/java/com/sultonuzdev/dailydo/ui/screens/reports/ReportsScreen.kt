@@ -50,57 +50,49 @@ fun ReportsScreen(
     var selectedTimeframeIndex by remember { mutableStateOf(0) }
     val timeframes = listOf("Daily", "Weekly", "Monthly", "Yearly")
 
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Efficiency Reports",
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    titleContentColor = MaterialTheme.colorScheme.onBackground
+    Column(modifier = modifier.fillMaxSize()) {
+        // Top app bar
+        TopAppBar(
+            title = {
+                Text(
+                    text = "Efficiency Reports",
+                    style = MaterialTheme.typography.titleLarge
                 )
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.background,
+                titleContentColor = MaterialTheme.colorScheme.onBackground
             )
-        }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-        ) {
-            // Time period selector
-            SingleChoiceSegmentedButtonRow(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .fillMaxWidth()
-            ) {
-                timeframes.forEachIndexed { index, label ->
-                    SegmentedButton(
-                        selected = selectedTimeframeIndex == index,
-                        onClick = {
-                            selectedTimeframeIndex = index
-                            viewModel.changeTimeframe(getTimeframeFromIndex(index))
-                        },
-                        shape = SegmentedButtonDefaults.itemShape(
-                            index = index,
-                            count = timeframes.size
-                        ),
-                        label = { Text(label) }
-                    )
-                }
-            }
+        )
 
-            // Reports content based on selected timeframe
-            ReportsContent(
-                uiState = uiState,
-                selectedTimeframe = getTimeframeFromIndex(selectedTimeframeIndex),
-                modifier = Modifier.weight(1f)
-            )
+        // Time period selector
+        SingleChoiceSegmentedButtonRow(
+            modifier = Modifier
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .fillMaxWidth()
+        ) {
+            timeframes.forEachIndexed { index, label ->
+                SegmentedButton(
+                    selected = selectedTimeframeIndex == index,
+                    onClick = {
+                        selectedTimeframeIndex = index
+                        viewModel.changeTimeframe(getTimeframeFromIndex(index))
+                    },
+                    shape = SegmentedButtonDefaults.itemShape(
+                        index = index,
+                        count = timeframes.size
+                    ),
+                    label = { Text(label) }
+                )
+            }
         }
+
+        // Reports content based on selected timeframe
+        ReportsContent(
+            uiState = uiState,
+            selectedTimeframe = getTimeframeFromIndex(selectedTimeframeIndex),
+            modifier = Modifier.weight(1f)
+        )
     }
 }
 

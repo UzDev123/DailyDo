@@ -16,7 +16,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -39,36 +38,47 @@ fun StoryListScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Motivational Stories",
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    titleContentColor = MaterialTheme.colorScheme.onBackground
+    Column(modifier = modifier.fillMaxSize()) {
+        // Top app bar
+        TopAppBar(
+            title = {
+                Text(
+                    text = "Motivational Stories",
+                    style = MaterialTheme.typography.titleLarge
                 )
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.background,
+                titleContentColor = MaterialTheme.colorScheme.onBackground
             )
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = onAddStoryClick) {
+        )
+
+        // Main content
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f)
+        ) {
+            StoriesContent(
+                uiState = uiState,
+                onStoryClick = onStoryClick,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            // FAB
+            FloatingActionButton(
+                onClick = onAddStoryClick,
+                containerColor = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
+            ) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Add Story"
                 )
             }
         }
-    ) { innerPadding ->
-        StoriesContent(
-            uiState = uiState,
-            onStoryClick = onStoryClick,
-            modifier = Modifier.padding(innerPadding)
-        )
     }
 }
 

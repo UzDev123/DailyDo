@@ -38,36 +38,49 @@ import org.threeten.bp.format.FormatStyle
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TasksScreen(
-
     onTaskClick: (Long) -> Unit,
     onAddTaskClick: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: TasksViewModel = hiltViewModel()
-
 ) {
     val tasksState by viewModel.tasksState.collectAsState()
     val currentDate = LocalDate.now()
     val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = currentDate.format(dateFormatter),
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    titleContentColor = MaterialTheme.colorScheme.onBackground
+    Column(modifier = modifier.fillMaxSize()) {
+        // Top app bar
+        TopAppBar(
+            title = {
+                Text(
+                    text = currentDate.format(dateFormatter),
+                    style = MaterialTheme.typography.titleLarge
                 )
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.background,
+                titleContentColor = MaterialTheme.colorScheme.onBackground
             )
-        },
-        floatingActionButton = {
+        )
+
+        // Main content
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f)
+        ) {
+            TasksContent(
+                tasksState = tasksState,
+                onTaskClick = onTaskClick,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            // FAB
             FloatingActionButton(
                 onClick = onAddTaskClick,
                 containerColor = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -75,12 +88,6 @@ fun TasksScreen(
                 )
             }
         }
-    ) { innerPadding ->
-        TasksContent(
-            tasksState = tasksState,
-            onTaskClick = onTaskClick,
-            modifier = Modifier.padding(innerPadding)
-        )
     }
 }
 

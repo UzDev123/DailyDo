@@ -88,7 +88,7 @@ fun DailyDoBottomBar(
         modifier = modifier
             .fillMaxWidth()
             .windowInsetsPadding(WindowInsets.navigationBars),
-        color = MaterialTheme.colorScheme.primary,
+        color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.9f),
         shadowElevation = 8.dp,
         shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
     ) {
@@ -101,9 +101,9 @@ fun DailyDoBottomBar(
             items.forEach { item ->
                 val selected = currentDestination == item.route
                 val tint = if (selected) {
-                    MaterialTheme.colorScheme.onPrimary
+                    MaterialTheme.colorScheme.secondary
                 } else {
-                    MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.6f)
+                    MaterialTheme.colorScheme.primary.copy(alpha = 0.6f)
                 }
 
                 Column(
